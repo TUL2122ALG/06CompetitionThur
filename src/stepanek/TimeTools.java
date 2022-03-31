@@ -1,3 +1,5 @@
+package stepanek;
+
 public class TimeTools {
     private int hours;
     private int minutes;

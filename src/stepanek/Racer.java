@@ -1,3 +1,5 @@
+package stepanek;
+
 public class Racer {
     enum Gender {
         MALE("M"), FEMALE("F"), OTHER("O");

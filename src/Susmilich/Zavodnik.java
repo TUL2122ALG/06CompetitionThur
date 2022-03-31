@@ -1,4 +1,4 @@
-package Susmilich;
+package susmilich;
 
 /**
  *
