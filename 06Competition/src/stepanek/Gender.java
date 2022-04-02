@@ -3,7 +3,6 @@ public enum Gender {
     MALE("M"), FEMALE("F"), OTHER("O");
 
     private String gender;
-    private char genderShortcut;
 
     private Gender(String gender) {
         this.gender = gender;

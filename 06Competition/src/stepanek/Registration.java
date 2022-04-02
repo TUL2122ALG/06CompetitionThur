@@ -1,4 +1,3 @@
-import java.lang.reflect.InaccessibleObjectException;
 import java.util.Scanner;
 
 public class Registration {
