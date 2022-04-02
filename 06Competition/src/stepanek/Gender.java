@@ -1,6 +1,6 @@
 public enum Gender {
 
-    MALE("M"), FEMALE("F"), OTHER("O");
+    MUŽ("M"), ŽENA("Ž"), OSTATNÍ("O");
 
     private String gender;
 

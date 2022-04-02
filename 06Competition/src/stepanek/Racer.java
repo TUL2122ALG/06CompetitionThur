@@ -32,11 +32,10 @@ public class Racer {
         this.startingNumber = startingNumber;
     }
 
-    private void setStartingNumber() {
+    public void setStartingNumber() {
         int low = 1;
         int high = 10000;
-        int result = r.nextInt(high - low) + low;
-        this.startingNumber = result;
+        this.startingNumber = r.nextInt(high - low) + low;
     }
 
     public String getFirstName() {
@@ -167,13 +166,13 @@ public class Racer {
         return "Závodník, " + this.firstName + " " + this.lastName + String.format(" [%s]", getGender()) + ", narozen "
                 + getDateOfBirth()
                 + ", se startovacím číslem "
-                + String.format("%05d", this.startingNumber);
+                + String.format("%05d", this.startingNumber) + "\n";
     }
 
     public static void main(String[] args) {
-        Racer r = new Racer("Jakub", "Štěpánek", "23 7 2002");
-        r.setStartingNumber(123);
-        System.out.println(r);
+        // Racer r = new Racer("Jakub", "Štěpánek", "23 7 2002");
+        // r.setStartingNumber(123);
+        // System.out.println(r);
     }
 
 }
