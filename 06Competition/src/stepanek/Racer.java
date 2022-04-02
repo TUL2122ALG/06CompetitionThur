@@ -2,29 +2,6 @@ import java.util.Objects;
 import java.util.Random;
 
 public class Racer {
-    enum Gender {
-        MALE("M"), FEMALE("F"), OTHER("O");
-
-        private String gender;
-        private char genderShortcut;
-
-        private Gender(String gender) {
-            this.gender = gender;
-        }
-
-        public String getGenderValue() {
-            return gender;
-        }
-
-        public static Gender of(String gender) {
-            for (Gender g : Gender.values()) {
-                if (g.getGenderValue().equals(gender)) {
-                    return g;
-                }
-            }
-            return null;
-        }
-    }
 
     private final String firstName;
     private final String lastName;
@@ -41,7 +18,7 @@ public class Racer {
     private int standings;
     private Random r = new Random();
 
-    private Racer(String firstName, String lastName, String dateOfBirth) {
+    public Racer(String firstName, String lastName, String dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
@@ -187,7 +164,8 @@ public class Racer {
         if (this.startingNumber < 0) {
             setStartingNumber();
         }
-        return "Závodník, " + this.firstName + " " + this.lastName + ", narozen " + getDateOfBirth()
+        return "Závodník, " + this.firstName + " " + this.lastName + String.format(" [%s]", getGender()) + ", narozen "
+                + getDateOfBirth()
                 + ", se startovacím číslem "
                 + String.format("%05d", this.startingNumber);
     }
