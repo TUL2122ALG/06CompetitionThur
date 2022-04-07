@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Objects;
 
 public class Race {
@@ -66,7 +67,7 @@ public class Race {
     }
 
     public void sortByLastName() {
-        ComparatorRacerByLastName cbp = new ComparatorRacerByLastName();
+        Comparator cbp = new ComparatorRacerByLastName();
         Collections.sort(racers, cbp);
     }
 
