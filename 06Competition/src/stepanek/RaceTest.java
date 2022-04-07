@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 
-import javax.lang.model.element.Element;
-
 public class RaceTest {
     public static void main(String[] args) {
         ArrayList<Racer> Racers = new ArrayList<Racer>();
