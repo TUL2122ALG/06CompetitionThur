@@ -6,34 +6,30 @@ public class RaceApp {
 
     public static void main(String[] args) {
         Race race = new Race("Jizerská 50");
-
-        // System.out.println("=== Výdejte v registračním okně ===");
-        // System.out.println("Zadávejte prosím pravdivé informace.");
-        // System.out.print("Jméno Příjmení: ");
-        // String[] inArr = sc.nextLine().split(" ");
-        // System.out.print("Datum narození [DD MM YYYY]: ");
-        // String dateOfBirth = sc.nextLine();
-        // System.out.print("Pohlaví: [F/M/O]: ");
-
-        // Racer r = Racer.getInstanceOf(inArr[0], inArr[1], dateOfBirth,
-        // Gender.of(sc.nextLine().toUpperCase()));
-        // System.out.print("start: ");
-        // r.setRaceStartTimeSeconds(sc.nextInt());
-        // System.out.print("konec: ");
-        // r.setRaceEndTimeSeconds(sc.nextInt());
-
         ArrayList<Racer> racers = new ArrayList<>();
 
-        racers.add(new Racer("Jakub", "Štěpánek", "2 2 22", Gender.MUŽ));
-        racers.add(new Racer("Pavel", "Vácha", "2 2 22", Gender.MUŽ));
+        racers.add(new Racer("Jakub", "Štěpánek", "23 5 22", Gender.MUŽ));
+        racers.add(new Racer("Pavel", "Vácha", "3 2 22", Gender.MUŽ));
         racers.add(new Racer("Matěj", "Štěpán", "2 2 22", Gender.MUŽ));
-        racers.add(new Racer("Adam", "Sucharda", "2 2 22", Gender.MUŽ));
+        racers.add(new Racer("Adam", "Sucharda", "1 2 22", Gender.MUŽ));
 
+        racers.get(0).setRaceStartTimeSeconds(230);
+        racers.get(1).setRaceStartTimeSeconds(330);
+        racers.get(2).setRaceStartTimeSeconds(430);
+        racers.get(3).setRaceStartTimeSeconds(530);
+
+        racers.get(0).setRaceEndTimeSeconds(1030);
+        racers.get(1).setRaceEndTimeSeconds(1130);
+        racers.get(2).setRaceEndTimeSeconds(1230);
+        racers.get(3).setRaceEndTimeSeconds(1330);
         for (int i = 0; i < racers.size(); i++) {
             race.setRacers(racers.get(i));
         }
 
+        //TODO: compare racingstatus
+
         System.out.println(race);
+
         // System.out.println(r);
 
     }

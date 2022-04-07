@@ -1,3 +1,14 @@
 public enum RacingStatus {
-    NOT_RUNNING, RUNNING, FINISHED, DISQUALIFIED;
+    NOT_RUNNING("NR"), RUNNING("R"), FINISHED("F"), DISQUALIFIED("D");
+
+    private String racingStatus;
+
+    private RacingStatus(String racingStatus) {
+        this.racingStatus = racingStatus;
+    }
+
+    public String getRacingStatusalue() {
+        return racingStatus;
+    }
+
 }

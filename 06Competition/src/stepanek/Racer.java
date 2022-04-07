@@ -8,6 +8,7 @@ public class Racer implements Comparable<Racer> {
     private final String dateOfBirth;
     private int raceCategory;
     private Gender gender;
+    private RacingStatus racingStatus;
     private String club;
     private int startingNumber;
     private int startingWave;
@@ -118,11 +119,21 @@ public class Racer implements Comparable<Racer> {
         return this.raceEndTimeSeconds;
     }
 
+    public void setRacingStatus(RacingStatus racingStatus) {
+        this.racingStatus = racingStatus;
+    }
+
+    public RacingStatus getRacingStatus() {
+        return this.racingStatus;
+    }
+
     public void setRaceStartTimeSeconds(int raceStartTimeSeconds) {
+        this.setRacingStatus(RacingStatus.RUNNING);
         this.raceStartTimeSeconds = raceStartTimeSeconds;
     }
 
     public void setRaceEndTimeSeconds(int raceEndTimeSeconds) {
+        this.setRacingStatus(RacingStatus.FINISHED);
         this.raceEndTimeSeconds = raceEndTimeSeconds;
     }
 
@@ -173,29 +184,21 @@ public class Racer implements Comparable<Racer> {
     }
 
     @Override
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        if (this.startingNumber < 0) {
-            setStartingNumber();
-        }
-        return this.firstName + " " + this.lastName + String.format(" [%s]", getGender()) + ", narozen "
-                + getDateOfBirth()
-                + ", se startovacím číslem "
-                + String.format("%05d", getStartingNumber()) +
-                ", START: " + TimeTools.secondsToTimeString(getRaceStartTimeSeconds()) + ", KONEC: "
-                + TimeTools.secondsToTimeString(getRaceEndTimeSeconds()) + ",TIME: "
-                + TimeTools
-                        .secondsToTimeString(getTimeResultSeconds(getRaceStartTimeSeconds(), getRaceEndTimeSeconds()))
-                +
-                "\n";
-    }
+        sb.append(System.getProperty("line.separator"));
+        sb.append(String.format("[%s]%-5s \t %-10s \t %-10s", getGender(), getFirstName(), getLastName(),
+                getDateOfBirth()));
 
-    public static void main(String[] args) {
-        // Racer r = new Racer("Jakub", "Štěpánek", "23 7 2002");
-        // r.setStartingNumber(123);
-        // System.out.println(r);
+        sb.append(String.format(" \t %s \t %s \t %s", TimeTools.secondsToTimeString(getRaceStartTimeSeconds()),
+                TimeTools.secondsToTimeString(getRaceEndTimeSeconds()),
+                (getRacingStatus() == (RacingStatus.FINISHED))
+                        ? TimeTools.secondsToTimeString(
+                                getTimeResultSeconds(getRaceStartTimeSeconds(), getRaceEndTimeSeconds()))
+                        : getRacingStatus()));
+        return sb.toString();
     }
-
     @Override
     public int compareTo(Racer o) {
         // TODO:

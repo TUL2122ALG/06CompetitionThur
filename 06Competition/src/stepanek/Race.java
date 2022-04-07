@@ -90,7 +90,9 @@ public class Race {
 
     @Override
     public String toString() {
-        return "Závod: " + getName() + "\n" + getRacers();
+        return "Závod: " + getName() + "\n"
+                + "     Jméno     Příjmení     Datum_narození     START   KONEC     ČAS_CELKEM"
+                + getRacers();
     }
 
 }
