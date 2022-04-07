@@ -64,8 +64,10 @@ public class Race {
     public void sortByTime() {
         Collections.sort(racers);
     }
+
     public void sortByLastName() {
-        Collections.sort(racers);
+        ComparatorRacerByLastName cbp = new ComparatorRacerByLastName();
+        Collections.sort(racers, cbp);
     }
 
     @Override
