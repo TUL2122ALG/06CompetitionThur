@@ -62,7 +62,7 @@ public class TimeTools {
         return this;
     }
 
-    public String secondsToTimeString(int seconds) {
+    public static String secondsToTimeString(int seconds) {
         // TO-DO: StringBuilder sb = new StringBuilder();
         int h, m, s, sLeft;
         h = seconds / 3600;
@@ -82,8 +82,8 @@ public class TimeTools {
         return ret;
     }
 
-    public static int timeCompare(int startTime, int endTime) {
-        return endTime - startTime;
+    public static int timeCompare(int startTimeSeconds, int endTimeSeconds) {
+        return endTimeSeconds - startTimeSeconds;
     }
 
     public static int timeToSeconds(int hours, int minutes, int seconds) {
