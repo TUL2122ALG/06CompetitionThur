@@ -8,6 +8,10 @@ package svobodny;
  *
  * @author hynek.vaclav.svobodny
  */
-public enum Sex {
-    MALE, FEMALE;
+public enum ZavodnikState {
+    BEFORE_START,
+    RUNNING,
+    DIDNT_START,
+    FINISHED,
+    UNFINISHED;
 }
