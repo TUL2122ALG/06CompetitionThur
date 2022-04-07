@@ -8,13 +8,13 @@ package chmelar;
  *
  * @author tomas.chmelar
  */
-public class ZavodnikApp {
+public class ZavodApp {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Zavodnik zavodnik1 = new Zavodnik("Pepa", "z Depa", 58, 'm');
+        
     }
     
 }

@@ -15,11 +15,12 @@ public final class TimeTools {
 
     public static String secondsToTime(int time){
         int hodiny, minuty, sekundy;
-        hodiny = time % 3600;
-        time = time - (hodiny * 3600);
-        minuty = time % 60;
-        sekundy = time - (minuty * 60);
-        return hodiny + ":" + minuty + ":" + sekundy;
+        hodiny = time / 3600;
+        time = time % hodiny;
+        minuty = time / 60;
+        sekundy = time % minuty;
+        //return hodiny + ":" + minuty + ":" + sekundy;
+        return String.format("%02d:%02d:%02d", hodiny, minuty, sekundy);
     }
     
     public static int timeCompare(int startTime, int finishTime){

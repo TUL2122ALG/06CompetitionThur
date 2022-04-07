@@ -4,11 +4,13 @@
  */
 package chmelar;
 
+import java.util.Calendar;
+
 /**
  *
  * @author tomas.chmelar
  */
-public class Zavodnik {
+public class Zavodnik implements Comparable<Zavodnik> {
 private String jmeno;
 private String prijmeni;
 private int rocnik;
@@ -27,7 +29,22 @@ private static int pocitadlo = 1;
         this.registracniCislo = pocitadlo;
         Zavodnik.pocitadlo ++;
     }
-
+    //kopie
+    public Zavodnik(Zavodnik z){
+        this.jmeno = z.jmeno;
+        this.prijmeni = z.prijmeni;
+        this.rocnik = z.rocnik;
+        this.pohlavi = z.pohlavi;
+        this.registracniCislo = z.registracniCislo;
+        this.startTime = z.startTime;
+        this.finishTime = z.finishTime;
+        this.time = z.getTime();
+    }
+    public static Zavodnik getInstance(String jmeno, String prijmeni, int rocnik, char pohlavi){
+        Zavodnik zavodnik = new Zavodnik(jmeno, prijmeni,rocnik,pohlavi);
+        return zavodnik;
+    }
+    
     public int getRegistracniCislo() {
         return registracniCislo; 
     }
@@ -53,7 +70,10 @@ private static int pocitadlo = 1;
     }
 
     public int getTime() {
-        return time;
+        if(getStartTime() > 0  && getFinishTime() > 0){
+            return time = TimeTools.timeCompare(startTime, finishTime);
+        }
+        return 0;
     }
 
     public char getPohlavi() {
@@ -76,7 +96,31 @@ private static int pocitadlo = 1;
         this.startTime = TimeTools.timeToSeconds(hodiny, minuty, sekundy);        
     }
     
+    public void setFinishTime(int hodiny, int minuty, int sekundy){
+        this.finishTime = TimeTools.timeToSeconds(hodiny, minuty, sekundy);        
+    }
+        
     public void setTime(String time){
         this.startTime = TimeTools.timeToSeconds(time);
     }
+    
+    public void setFinishTime(String time){
+        this.finishTime = TimeTools.timeToSeconds(time);
+    }
+    public int getVek(int rocnik){
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        return year - rocnik;
+    }
+    
+    public String toString(){
+        return String.format("%5d %10s %10s %5d %1s %10s %10s %10s", this.registracniCislo,this.jmeno,this.prijmeni,getVek(this.getRocnik()), this.pohlavi, 
+                TimeTools.secondsToTime(this.startTime), TimeTools.secondsToTime(this.finishTime),TimeTools.secondsToTime(this.startTime), 
+                TimeTools.secondsToTime(this.getTime()));
+    }
+
+    @Override
+    public int compareTo(Zavodnik o) {
+        return this.getTime() - o.getTime();
+    }
+    
 }
