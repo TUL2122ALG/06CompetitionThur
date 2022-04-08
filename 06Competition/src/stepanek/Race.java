@@ -24,6 +24,10 @@ public class Race {
         return copy;
     }
 
+    public Racer getlastRacer() {
+        return null;
+    }
+
     public void setRacers(Racer racer) {
         this.racers.add(racer);
     }

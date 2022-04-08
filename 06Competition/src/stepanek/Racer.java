@@ -20,6 +20,7 @@ public class Racer implements Comparable<Racer> {
     private int standings;
     private Random r = new Random();
 
+
     // TO-DO: get state of racer ... enum Racingstatus
 
     Racer(String firstName, String lastName, String dateOfBirth, Gender gender) {
