@@ -7,7 +7,7 @@ public enum RacingStatus {
         this.racingStatus = racingStatus;
     }
 
-    public String getRacingStatusalue() {
+    public String getRacingStatusValue() {
         return racingStatus;
     }
 

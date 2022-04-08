@@ -156,6 +156,7 @@ public class Racer implements Comparable<Racer> {
         this.raceEndTimeSeconds = r.raceEndTimeSeconds;
         this.raceTime = r.raceTime;
         this.standings = r.standings;
+        this.racingStatus = r.racingStatus;
     }
 
     @Override
@@ -193,26 +194,18 @@ public class Racer implements Comparable<Racer> {
 
         sb.append(String.format(" \t %s \t %s \t %s", TimeTools.secondsToTimeString(getRaceStartTimeSeconds()),
                 TimeTools.secondsToTimeString(getRaceEndTimeSeconds()),
-                (getRacingStatus() == (RacingStatus.FINISHED))
+                ((getRacingStatus().compareTo(RacingStatus.FINISHED) == 0)
                         ? TimeTools.secondsToTimeString(
                                 getTimeResultSeconds(getRaceStartTimeSeconds(), getRaceEndTimeSeconds()))
-                        : getRacingStatus()));
+                        : getRacingStatus())));
+
         return sb.toString();
     }
+
     @Override
     public int compareTo(Racer o) {
-        // TODO:
-
         return this.getTimeResultSeconds(getRaceStartTimeSeconds(), getRaceEndTimeSeconds())
                 - o.getTimeResultSeconds(getRaceStartTimeSeconds(), getRaceEndTimeSeconds());
-        // if(this.getRaceTime() < o.getRaceTime()){
-        // return -1;
-        // }else if(this.getRaceTime()> o.getRaceTime()){
-        // return 1;
-        // }else {
-        // return 0;
-        // }
-
     }
 
 }
