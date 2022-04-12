@@ -178,6 +178,7 @@ build/\
 \
 ### Some additional ignores (sort later)\
 *.DS_Store\
+.DS_Store
 *.sw?\
 .#*\
 *#\
