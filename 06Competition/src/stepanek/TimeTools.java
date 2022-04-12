@@ -90,9 +90,14 @@ public class TimeTools {
         return hours * 3600 + minutes * 60 + seconds;
     }
 
+    // public static int timeToSeconds(String seconds) {
+    // String arr[] = seconds.split(":", 3);
+    // return Integer.parseInt(arr[0] + ":" + arr[1] + ":" + arr[2]);
+    // }
+
     public static int timeToSeconds(String seconds) {
         String arr[] = seconds.split(":", 3);
-        return Integer.parseInt(arr[0] + ":" + arr[1] + ":" + arr[2]);
+        return Integer.parseInt(arr[0]) * 3600 + Integer.parseInt(arr[1]) * 60 + Integer.parseInt(arr[2]);
     }
 
     @Override

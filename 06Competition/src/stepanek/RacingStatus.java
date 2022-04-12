@@ -1,5 +1,5 @@
 public enum RacingStatus {
-    NOT_RUNNING("NR"), RUNNING("R"), FINISHED("F"), DISQUALIFIED("D");
+    NOT_RUNNING("NR"), RUNNING("RE"), FINISHED("F"), DISQUALIFIED("D"), REGISTRATED("RE");
 
     private String racingStatus;
 

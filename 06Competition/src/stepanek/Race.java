@@ -1,3 +1,5 @@
+import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -7,10 +9,8 @@ import java.util.Objects;
 public class Race {
     private String name;
     private ArrayList<Racer> racers = new ArrayList<>();
-    private int timeStartSeconds;
-    private int timeEndSeconds;
-    private int timeResultSeconds;
     private int registrationNumber;
+    private int raceStartTime;
 
     public Race(String name) {
         this.name = name;
@@ -25,19 +25,28 @@ public class Race {
     }
 
     public Racer getlastRacer() {
-        return null;
+        // TODO: safety copy racer
+        return this.racers.get(racers.size());
     }
 
-    public void setRacers(Racer racer) {
+    public void setRacer(Racer racer) {
         this.racers.add(racer);
     }
 
-    public int getTimeStartSeconds() {
-        return this.timeStartSeconds;
+    public int getTimeStartSeconds(int racerID) {
+        return racers.get(racerID).getRaceStartTimeSeconds();
     }
 
-    public void setTimeStartSeconds(int timeStartSeconds) {
-        this.timeStartSeconds = timeStartSeconds;
+    public void setRacerTimeStartSeconds() throws IOException {
+        try {
+            racers.get(0).setRaceStartTimeSeconds(this.raceStartTime);
+            for (int i = 1; i < this.racers.size(); i++) {
+                racers.get(i).setRaceStartTimeSeconds(this.raceStartTime + i * 5);
+            }
+        } catch (Exception e) {
+            throw new IOException("Závod musí někdy začínat!");
+        }
+
     }
 
     public void setRacerStartNumber(int racerStartNumber) {
@@ -50,16 +59,8 @@ public class Race {
 
     }
 
-    public int getTimeEndSeconds() {
-        return this.timeEndSeconds;
-    }
-
-    public void setTimeEndSeconds(int timeEndSeconds) {
-        this.timeEndSeconds = timeEndSeconds;
-    }
-
-    public int getTimeResultSeconds() {
-        return TimeTools.timeCompare(this.timeStartSeconds, this.timeEndSeconds);
+    public int getTimeEndSeconds(int racerID) {
+        return racers.get(racerID).getRaceEndTimeSeconds();
     }
 
     public String getName() {
@@ -75,6 +76,14 @@ public class Race {
         Collections.sort(racers, cbp);
     }
 
+    public void setRaceStartTime(String raceStartTime) {
+        this.raceStartTime = TimeTools.timeToSeconds(raceStartTime);
+    }
+
+    public String getRaceStartTime() {
+        return TimeTools.secondsToTimeString(this.raceStartTime);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -83,13 +92,12 @@ public class Race {
             return false;
         }
         Race race = (Race) o;
-        return Objects.equals(racers, race.racers) && timeStartSeconds == race.timeStartSeconds
-                && timeEndSeconds == race.timeEndSeconds && timeResultSeconds == race.timeResultSeconds;
+        return Objects.equals(racers, race.racers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(racers, timeStartSeconds, timeEndSeconds, timeResultSeconds);
+        return Objects.hash(racers);
     }
 
     @Override
