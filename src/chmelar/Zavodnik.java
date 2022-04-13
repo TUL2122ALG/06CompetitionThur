@@ -92,7 +92,7 @@ private static int pocitadlo = 1;
         this.finishTime = finishTime;
     }
 
-    public void setTime(int hodiny, int minuty, int sekundy){
+    public void setStartTime(int hodiny, int minuty, int sekundy){
         this.startTime = TimeTools.timeToSeconds(hodiny, minuty, sekundy);        
     }
     
@@ -100,7 +100,7 @@ private static int pocitadlo = 1;
         this.finishTime = TimeTools.timeToSeconds(hodiny, minuty, sekundy);        
     }
         
-    public void setTime(String time){
+    public void setStartTime(String time){
         this.startTime = TimeTools.timeToSeconds(time);
     }
     
@@ -121,6 +121,15 @@ private static int pocitadlo = 1;
     @Override
     public int compareTo(Zavodnik o) {
         return this.getTime() - o.getTime();
+    }
+    
+        public static void main(String[] args) {
+        Zavodnik z = new Zavodnik("Někdo", "Neznamy", 1970, 'F');
+        System.out.println(z);
+        z.setStartTime(9,0,0);
+        System.out.println(z);
+        z.setFinishTime("10:02:05");
+        System.out.println(z);
     }
     
 }

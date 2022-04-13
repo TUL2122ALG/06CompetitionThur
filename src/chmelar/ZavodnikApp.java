@@ -14,7 +14,8 @@ public class ZavodnikApp {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Zavodnik zavodnik1 = new Zavodnik("Pepa", "z Depa", 58, 'm');
+        Zavodnik zavodnik1 = new Zavodnik("Pepa", "z Depa", 1958, 'm');
+        Zavodnik zavodnik2 = new Zavodnik("Ondra", "Pohadka", 1998, 'm');
     }
     
 }
