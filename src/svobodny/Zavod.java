@@ -57,6 +57,7 @@ public class Zavod {
     
     public void setFinishTimeOf(int startNumber, int hours, int minutes, int seconds) {
         Zavodnik z = findByStartNumber(startNumber);
+        z.setFinishTime(hours, minutes, seconds);
     }
     
     private Zavodnik findByStartNumber(int startNumber) {
@@ -66,6 +67,10 @@ public class Zavod {
             }
         }
         throw new NoSuchElementException(String.format("Zavodnik s cislem %d neexistuje.", startNumber));
+    }
+    
+    public int findFastest() {
+        
     }
     
     public int findFastestNumber() {

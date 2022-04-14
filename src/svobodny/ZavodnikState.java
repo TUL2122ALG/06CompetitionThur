@@ -9,9 +9,15 @@ package svobodny;
  * @author hynek.vaclav.svobodny
  */
 public enum ZavodnikState {
+    /*
     BEFORE_START,
     RUNNING,
     DIDNT_START,
     FINISHED,
     UNFINISHED;
+    */
+    
+    NOT_STARTED,
+    UNFINISHED,
+    FINISHED;
 }

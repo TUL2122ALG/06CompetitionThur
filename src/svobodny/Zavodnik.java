@@ -1,6 +1,7 @@
 package svobodny;
 
 import java.time.LocalTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.Duration;
 
@@ -8,7 +9,7 @@ import java.time.Duration;
  *
  * @author hynek.vaclav.svobodny
  */
-public class Zavodnik implements Comparable {
+public class Zavodnik implements Comparable<Zavodnik> {
     // Instance variables
     private String firstName;
     private String surname;
@@ -87,29 +88,16 @@ public class Zavodnik implements Comparable {
     }
     
     public Duration getTime() {
-        if (getState() != ZavodnikState.FINISHED) {
-            throw new IllegalStateException("Zavodnik nedokoncil zavod");
+        if (getState() == ZavodnikState.FINISHED) {
+            time = Duration.between(startTime, finishTime);
         }
         
-        return time = Duration.between(startTime, finishTime);
+        return time;
     }
     
     public long getTimeInSeconds() {
         return getTime().getSeconds();
     }
-    
-    
-    // Methods
-
-    // TODO
-    public int getAge() {
-        
-    }
-    
-    public ZavodnikState getState() {
-        if (startTime >= )
-    }
-    
     
     // Setters
     
@@ -119,6 +107,10 @@ public class Zavodnik implements Comparable {
     
     public void setStartTime(int hours, int minutes, int seconds) {
         setStartTime(LocalTime.of(hours, minutes, seconds));
+    }
+    
+    public void setStartTime(String time) {
+        setStartTime(LocalTime.parse(time));
     }
 
     public void setFinishTime(LocalTime finishTime) {
@@ -130,10 +122,37 @@ public class Zavodnik implements Comparable {
         setFinishTime(LocalTime.of(hours, minutes, seconds));
     }
     
+    public void setFinishTime(String time) {
+        setFinishTime(LocalTime.parse(time));
+    }
+    
+    // Methods
+
+    public int getAge() {
+        return LocalDate.now().getYear() - birthYear;
+    }
+    
+    public ZavodnikState getState() {
+        if (startTime == null) {
+            return ZavodnikState.NOT_STARTED;
+        } else if (finishTime == null) {
+            return ZavodnikState.UNFINISHED;
+        } else {
+            return ZavodnikState.FINISHED;
+        }
+    }
+    
+    
+    @Override
+    public int compareTo(Zavodnik z) {
+        return this.getTime().compareTo(z.getTime());
+    }
+    
     // toString
+    @Override
     public String toString() {
-        return String.format("%5d %10s %10s %5d %1s %10s %10s", 
-                this.startNumber,this.firstName, this.surname, this.getAge(), this.gender, startTime.format(DateTimeFormatter.ISO_LOCAL_TIME), finishTime.format(DateTimeFormatter.ISO_LOCAL_TIME), 
+        return String.format("%5d %10s %10s %5d %1s %10s %10s %10s", 
+                this.startNumber,this.firstName, this.surname, this.getAge(), this.gender.ch, TimeTools.timeToString(startTime), TimeTools.timeToString(finishTime), TimeTools.timeToString(getTime()));
     }
     
     // Testing main
@@ -143,12 +162,6 @@ public class Zavodnik implements Comparable {
         z.setStartTime(9,0,0);
         System.out.println(z);
         z.setFinishTime("10:02:01");
-    }
-
-    @Override
-    public int compareTo(Zavodnik z) {
-        if (this.getTime() < z.getTime()) {
-            
-        }
+        System.out.println(z);
     }
 }

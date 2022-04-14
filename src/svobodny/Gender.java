@@ -9,18 +9,21 @@ package svobodny;
  * @author hynek.vaclav.svobodny
  */
 public enum Gender {
-    MALE("muži"), FEMALE("ženy");
+    MALE("muži", 'M'), FEMALE("ženy", 'Z');
     
     // Instance variables
-    private String str;
+    public final String name;
+    public char ch;
     
     // Constructor
-    private Gender(String name) {
-        this.str = name;
+    private Gender(String name, char ch) {
+        this.name = name;
+        this.ch = ch;
     }
     
     // toString
+    @Override
     public String toString() {
-        return this.str;
+        return this.name;
     }
 }
