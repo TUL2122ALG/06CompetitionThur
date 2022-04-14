@@ -43,15 +43,13 @@ public class Race {
             for (int i = 1; i < this.racers.size(); i++) {
                 racers.get(i).setRaceStartTimeSeconds(this.raceStartTime + i * 5);
             }
-        } catch (Exception e) {
-            throw new IOException("Závod musí někdy začínat!");
+        } catch (StartTimeNotSet e) {
+            throw new StartTimeNotSet("Nebyl nastaven čas startu! Nelze nastavit čas cíle.");
         }
-
     }
 
     public void setRacerStartNumber(int racerStartNumber) {
         this.registrationNumber = racerStartNumber;
-
     }
 
     public int getRacerStartNumber() {
