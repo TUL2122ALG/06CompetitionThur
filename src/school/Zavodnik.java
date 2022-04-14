@@ -10,6 +10,8 @@ package school;
  * @author 
  */
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Scanner;
 
 
 public class Zavodnik implements Comparable<Zavodnik>{
@@ -18,8 +20,8 @@ public class Zavodnik implements Comparable<Zavodnik>{
     private String prijmeni;
     private int rocnik;
     private int registracniCislo;
-    private int startTime;
-    private int finishTime;
+    private Date startTime;
+    private LocalTime finishTime;
     private int time;
     private char pohlavi;
     private static int pocitadlo = 1;
@@ -31,9 +33,16 @@ public class Zavodnik implements Comparable<Zavodnik>{
         this.prijmeni = prijmeni;
         this.rocnik = rocnik;
         this.pohlavi = pohlavi;
-        this.klub = klub;
+        this.klub = checkClub(klub);
         this.registracniCislo = pocitadlo;
         Zavodnik.pocitadlo++;
+    }
+    
+    private String checkClub(String club){//Sokol So Sooooo
+        if(!club.matches("^[A-Z][a-z]+$")){
+            throw new IllegalArgumentException("Nevalidni nazev klubu. Validni zacina velkym pismenem a ma jedna a vice dalsich pismen");
+        }
+        return club;
     }
    
     
@@ -81,7 +90,7 @@ public class Zavodnik implements Comparable<Zavodnik>{
     }
 
     public int getStartTime() {
-        return startTime;
+        return startTime.getTime();
     }
 
     public int getFinishTime() {
@@ -118,11 +127,16 @@ public class Zavodnik implements Comparable<Zavodnik>{
     }
 
     public void setStartTime(int startTime) { //9*3600 + 12*60
-        this.startTime = startTime;
+        //this.startTime = startTime;
+        this.startTime = new Date(startTime);
     }
 
     public void setFinishTime(int finishTime) {
-        this.finishTime = finishTime;
+        if (startTime == null){
+        //if(this.startTime == 0){
+            throw new StartTimeNotSet("Nebyl nastaven cas startu, nelze nastavit cas v cili.");
+        }
+        this.finishTime = LocalTime.ofSecondOfDay(finishTime);
         getTime();
     }
 
@@ -131,6 +145,9 @@ public class Zavodnik implements Comparable<Zavodnik>{
     }
 
     public void setFinishTime(int hodiny, int minuty, int sekundy) { 
+        if(this.startTime == 0){
+            throw new StartTimeNotSet("Nebyl nastaven cas startu, nelze nastavit cas v cili.");
+        }
         this.finishTime = TimeTools.timeToSeconds(hodiny, minuty, sekundy);
     }
 
@@ -139,6 +156,9 @@ public class Zavodnik implements Comparable<Zavodnik>{
     }
 
     public void setFinishTime(String time) {
+        if(this.startTime == 0){
+            throw new StartTimeNotSet("Nebyl nastaven cas startu, nelze nastavit cas v cili.");
+        }
         this.finishTime = TimeTools.timeToSeconds(time);
     }
     
@@ -150,12 +170,20 @@ public class Zavodnik implements Comparable<Zavodnik>{
     }
     
     public static void main(String[] args) {
-        Zavodnik z = new Zavodnik("Alice", "Mala", 1980, 'F', "Sk Liberec");
-        System.out.println(z);
-        z.setStartTime(9,0,0);
-        System.out.println(z);
-        z.setFinishTime("10:02:05");
-        System.out.println(z);
+        Scanner sc = new Scanner(System.in); 
+        try{
+            Zavodnik z = new Zavodnik("Alice", "Mala", sc.nextInt(), 'F', "Sk Liberec");
+            System.out.println(z);
+            //z.setStartTime(9,0,0);
+            System.out.println(z);
+       
+            z.setFinishTime("10:02:05");
+            System.out.println(z);
+        }catch(StartTimeNotSet e){
+            System.out.println(e.getMessage());
+        }catch(Exception e){
+            System.out.println("Chyby");
+        }
     }
 
     @Override
