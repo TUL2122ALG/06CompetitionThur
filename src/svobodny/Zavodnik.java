@@ -2,7 +2,6 @@ package svobodny;
 
 import java.time.LocalTime;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.Duration;
 
 /**
@@ -30,7 +29,7 @@ public class Zavodnik implements Comparable<Zavodnik> {
         this.surname = surname;
         this.birthYear = birthYear;
         this.gender = gender;
-        this.club = club;
+        this.club = checkClub(club);
         this.startNumber = startNumberCounter;
         startNumberCounter++;
     }
@@ -52,6 +51,18 @@ public class Zavodnik implements Comparable<Zavodnik> {
     public static Zavodnik getInstance(String firstName, String surname, int birthYear, Gender gender, String club) {
         return new Zavodnik(firstName, surname, birthYear, gender, club);
     }
+    
+    
+    // Input check methods
+    
+    private String checkClub(String club) { //Sokol
+        if(!club.matches("^[A-Z][a-z0-9 ]+$")) {
+            throw new IllegalArgumentException("Nevalidni nazev kloubu. Validni zacina velkym pismenem");
+        }
+        
+        return club;
+    }
+    
     
     // Getters
 
@@ -114,6 +125,9 @@ public class Zavodnik implements Comparable<Zavodnik> {
     }
 
     public void setFinishTime(LocalTime finishTime) {
+        if (this.startTime == null) {
+            throw new StartTimeNotSet("Nebyl nastaven cas startu, nelze nastavit cas v cili.");
+        }
         this.finishTime = finishTime;
         getTime();
     }
@@ -157,11 +171,21 @@ public class Zavodnik implements Comparable<Zavodnik> {
     
     // Testing main
     public static void main(String[] args) {
-        Zavodnik z = new Zavodnik("Alice", "Mala", 1980, Gender.FEMALE, "SK Liberec");
+        try {
+        Zavodnik z = new Zavodnik("Alice", "Mala", 1980, Gender.FEMALE, "Sberec");
         System.out.println(z);
-        z.setStartTime(9,0,0);
+        //z.setStartTime(9,0,0);
         System.out.println(z);
-        z.setFinishTime("10:02:01");
-        System.out.println(z);
+            z.setFinishTime("10:02:05");
+            System.out.println(z);
+        } catch (StartTimeNotSet e) {
+            System.out.println(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Chyby");
+        }
+        //z.setFinishTime("10:02:01");
+        //System.out.println(z);
     }
 }

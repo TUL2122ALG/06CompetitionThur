@@ -27,7 +27,10 @@ public class TimeTools {
         if (time == null) {
             return "N/A";
         } else {
-            return time.format(DateTimeFormatter.ISO_LOCAL_TIME);
+            long HH = time.toHours();
+            long MM = time.toMinutesPart();
+            long SS = time.toSecondsPart();
+            return String.format("%02d:%02d:%02d", HH, MM, SS);
         }
     }
     
