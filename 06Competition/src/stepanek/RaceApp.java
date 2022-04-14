@@ -11,8 +11,34 @@ public class RaceApp {
         race.setRaceStartTime(sc.nextLine());
         race.setRacerTimeStartSeconds();
         race.sortByLastName();
+        boolean end = false;
+        String input = "";
+        while (!end) {
+            menu();
+            System.out.println(race);
+            switch (input) {
+                case "1":
+                    race.setRacer(generateRacer());
+                    break;
+                case "2":
+                    // race.deleteRacer(int);
+                    break;
+                case "q":
+                    end = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
-        System.out.println(race);
+    public static void menu() {
+
+        System.out.println("1 ...přidat závodníka");
+        System.out.println("2 ...odstranit závodníka");
+        // System.out.println("3 ...změnit status závodníka");
+        System.out.println("q ...konec");
+
     }
 
     public static Race registration() {
