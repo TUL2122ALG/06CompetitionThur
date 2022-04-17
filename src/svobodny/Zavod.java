@@ -76,31 +76,26 @@ public class Zavod {
         throw new NoSuchElementException(String.format("Zavodnik s cislem %d neexistuje.", startNumber));
     }
     
-    //TODO
-    public Zavodnik findFastest() {
+    private int findFastestIndex() {
         long fastestTime = Integer.MAX_VALUE;
         int fastestIndex = -1;
         long time;
         for (int i = 0; i < competitors.size(); i++) {
             if ((time = competitors.get(i).getTimeInSeconds()) < fastestTime) {
                 fastestTime = time;
-                fastestIndex = competitors.get(i).getStartNumber();
+                fastestIndex = i;
             }
         }
-        return new Zavodnik(competitors.get(fastestIndex));
+        
+        return fastestIndex;
+    }
+    
+    public Zavodnik findFastest() {
+        return new Zavodnik(competitors.get(findFastestIndex()));
     }
     
     public int findFastestNumber() {
-        long fastestTime = Integer.MAX_VALUE;
-        int fastest = -1;
-        long time;
-        for (int i = 0; i < competitors.size(); i++) {
-            if ((time = competitors.get(i).getTimeInSeconds()) < fastestTime) {
-                fastestTime = time;
-                fastest = competitors.get(i).getStartNumber();
-            }
-        }
-        return fastest;
+        return competitors.get(findFastestIndex()).getStartNumber();
     }
     
     private void sortByTime() {
