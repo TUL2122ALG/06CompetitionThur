@@ -121,19 +121,26 @@ public class Zavod {
     public static void main(String[] args) {
         Zavod jiz50 = new Zavod("Jiz50");
         System.out.println(jiz50);
-        System.out.println("");
-        jiz50.addCompetitor("Alice", "Mala", 1980, Gender.FEMALE, "Skiberec");
-        jiz50.addCompetitor("Bob", "Hruby", 1980, Gender.MALE, "Skl");
-        jiz50.addCompetitor("Cyril", "Drahy", 1980, Gender.MALE, "Sk");
+        jiz50.addCompetitor("Alice", "Mala", 1980, Gender.FEMALE, "Sliberec");
+        jiz50.addCompetitor("Bob", "Hruby", 1969, Gender.MALE, "Skiberec");
+        jiz50.addCompetitor("Cyril", "drahy", 1991, Gender.MALE, "Skjablonec");
         System.out.println(jiz50);
         System.out.println("");
-        jiz50.setStartTimeAll(9,0,0,2);
+        jiz50.setStartTimeAll(9, 0, 0, 2);
         System.out.println(jiz50);
         System.out.println("");
-        jiz50.setFinishTimeOf(1,10,0,0);
-        jiz50.setFinishTimeOf(2,10,10,0);
-        jiz50.setFinishTimeOf(3,10,1,0);
-        //jiz50.setFinishTimeOf(6,10,10,0);
+        jiz50.setFinishTimeOf(1, 10, 0, 0);
+        jiz50.setFinishTimeOf(2, 10, 10, 0);
+        jiz50.setFinishTimeOf(3, 10, 1, 0);
         System.out.println(jiz50);
+        System.out.println("");
+        System.out.println("Nejrychlejsi:\n" + jiz50.findFastest());
+        System.out.println("");
+        jiz50.sortByTime();
+        System.out.println(jiz50);
+        System.out.println("");
+        jiz50.sortBySurname();
+        System.out.println(jiz50);
+        System.out.println("");
     }
 }
