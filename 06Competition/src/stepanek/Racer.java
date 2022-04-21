@@ -20,18 +20,28 @@ public class Racer implements Comparable<Racer> {
     private int standings;
     private Random r = new Random();
 
-    // TO-DO: get state of racer ... enum Racingstatus
-
     Racer(String firstName, String lastName, String dateOfBirth, Gender gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
-        this.racingStatus = racingStatus.REGISTRATED;
+        this.racingStatus = RacingStatus.REGISTRATED;
     }
 
     public static Racer getInstanceOf(String firstName, String lastName, String dateOfBirth, Gender gender) {
         return new Racer(firstName, lastName, dateOfBirth, gender);
+    }
+
+    private String checkClub(String club) {// Sokol min:So max:Sokol
+        if (!club.matches("^[A-Z][a-z]{1,4}$")) {
+            throw new IllegalArgumentException(
+                    "Nevalidní název klubu. Validní začíná velkým písmenem a má jedno a více dalších písmen");
+        }
+        return club;
+    }
+
+    public void setClub(String club) {
+        this.club = checkClub(club);
     }
 
     public void setStartingNumber(int startingNumber) {
@@ -77,14 +87,6 @@ public class Racer implements Comparable<Racer> {
 
     public void setGender(Gender gender) {
         this.gender = gender;
-    }
-
-    public String getClub() {
-        return this.club;
-    }
-
-    public void setClub(String club) {
-        this.club = club;
     }
 
     public int getStartingNumber() {

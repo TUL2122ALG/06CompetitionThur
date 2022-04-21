@@ -5,7 +5,7 @@ import java.util.StringJoiner;
 public class RaceApp {
     public static Scanner sc = new Scanner(System.in);
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, StartTimeNotSet {
         Race race = registration();
         System.out.println("Zadejte čas startu: ");
         race.setRaceStartTime(sc.nextLine());
@@ -14,8 +14,9 @@ public class RaceApp {
         boolean end = false;
         String input = "";
         while (!end) {
-            menu();
             System.out.println(race);
+            menu();
+            input = sc.nextLine();
             switch (input) {
                 case "1":
                     race.setRacer(generateRacer());

@@ -1,7 +1,5 @@
 import java.io.IOException;
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Objects;
@@ -37,15 +35,21 @@ public class Race {
         return racers.get(racerID).getRaceStartTimeSeconds();
     }
 
-    public void setRacerTimeStartSeconds() throws IOException {
+    public void setRacerTimeStartSeconds() throws IOException, StartTimeNotSet {
         try {
+            if (this.raceStartTime == 0) {
+                throw new StartTimeNotSet("Nemůžeš končit, dokud závod nezačal");
+            }
             racers.get(0).setRaceStartTimeSeconds(this.raceStartTime);
             for (int i = 1; i < this.racers.size(); i++) {
                 racers.get(i).setRaceStartTimeSeconds(this.raceStartTime + i * 5);
             }
         } catch (StartTimeNotSet e) {
-            throw new StartTimeNotSet("Nebyl nastaven čas startu! Nelze nastavit čas cíle.");
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Chybné zadání!");
         }
+
     }
 
     public void setRacerStartNumber(int racerStartNumber) {
