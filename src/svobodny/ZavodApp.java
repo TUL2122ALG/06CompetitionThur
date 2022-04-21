@@ -21,11 +21,11 @@ public class ZavodApp {
     public static void main(String[] args) {
         displayCredits();
         
+        createCompetition();
+        
         char choice;
         do {
             displayMenu();
-            
-            createCompetition();
             
             choice = sc.next().charAt(0);
             sc.nextLine(); // buffer cleanup
@@ -96,8 +96,12 @@ public class ZavodApp {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    private static void displayCompetitorList() {
+        System.out.println(competition.getCompetitorList());
+    }
+    
     private static void displayResultList() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        System.out.println(competition.getResultList());
     }
     
 }
