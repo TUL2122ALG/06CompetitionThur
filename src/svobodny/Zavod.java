@@ -107,6 +107,16 @@ public class Zavod {
         Collections.sort(competitors,cbs);
     }
     
+    public String getResultList() {
+        sortByTime();
+        return this.toString();
+    }
+    
+    public String getCompetitorList() {
+        sortBySurname();
+        return this.toString();
+    }
+    
     // TODO
     @Override
     public String toString() {
