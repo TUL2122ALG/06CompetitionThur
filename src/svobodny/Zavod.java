@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package svobodny;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Collections;
@@ -56,15 +59,32 @@ public class Zavod {
         }
     }
     
+    public void setStartTimeAll(LocalTime time) {
+        for (Zavodnik competitor : competitors) {
+            competitor.setStartTime(time);
+        }
+    }
+    
     public void setStartTimeAll(int hours, int minutes, int seconds, int offsetInMinutes) {
         for (int i = 0; i < competitors.size(); i++) {
             competitors.get(i).setStartTime(hours, minutes + i*offsetInMinutes, seconds);
         }
     }
     
+    public void setStartTimeAll(LocalTime time, Duration offset) {
+        for (int i = 0; i < competitors.size(); i++) {
+            competitors.get(i).setStartTime(time = time.plus(offset));
+        }
+    }
+    
     public void setFinishTimeOf(int startNumber, int hours, int minutes, int seconds) {
         Zavodnik z = findByStartNumber(startNumber);
         z.setFinishTime(hours, minutes, seconds);
+    }
+    
+    public void setFinishTimeOf(int startNumber, LocalTime time) {
+        Zavodnik z = findByStartNumber(startNumber);
+        z.setFinishTime(time);
     }
     
     private Zavodnik findByStartNumber(int startNumber) {
@@ -136,11 +156,12 @@ public class Zavod {
         jiz50.addCompetitor("Cyril", "drahy", 1991, Gender.MALE, "Skjablonec");
         System.out.println(jiz50);
         System.out.println("");
-        jiz50.setStartTimeAll(9, 0, 0, 2);
+        //jiz50.setStartTimeAll(9, 0, 0, 2);
+        jiz50.setStartTimeAll(LocalTime.of(9,0,0),Duration.of(30,ChronoUnit.SECONDS));
         System.out.println(jiz50);
         System.out.println("");
         jiz50.setFinishTimeOf(1, 10, 0, 0);
-        jiz50.setFinishTimeOf(2, 10, 10, 0);
+        jiz50.setFinishTimeOf(2, LocalTime.of(10, 56, 32));
         jiz50.setFinishTimeOf(3, 10, 1, 0);
         System.out.println(jiz50);
         System.out.println("");
