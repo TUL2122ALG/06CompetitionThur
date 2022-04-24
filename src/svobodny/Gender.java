@@ -9,7 +9,7 @@ package svobodny;
  * @author hynek.vaclav.svobodny
  */
 public enum Gender {
-    MALE("muži", 'M'), FEMALE("ženy", 'Z');
+    MALE("muzi", 'M'), FEMALE("zeny", 'Z');
     
     // Instance variables
     public final String name;
@@ -19,6 +19,28 @@ public enum Gender {
     private Gender(String name, char ch) {
         this.name = name;
         this.ch = ch;
+    }
+    
+    public static Gender of(String name) {
+        switch (name) {
+            case "muzi":
+                return MALE;
+            case "zeny":
+                return FEMALE;
+            default:
+                return null;
+        }
+    }
+    
+    public static Gender of(char ch) {
+        switch (ch) {
+            case 'M':
+                return MALE;
+            case 'Z':
+                return FEMALE;
+            default:
+                return null;
+        }
     }
     
     // toString
