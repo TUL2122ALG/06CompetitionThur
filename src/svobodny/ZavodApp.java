@@ -4,6 +4,12 @@
  */
 package svobodny;
 
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -77,26 +83,82 @@ public class ZavodApp {
     }
 
     private static void registerCompetitors() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        char ans;
+        String name;
+        String surname;
+        int birthYear;
+        Gender gender;
+        String club;
+        do {
+            try {
+                System.out.print("Jmeno: ");
+                name = sc.nextLine();
+                
+                System.out.print("Prijmeni: ");
+                surname = sc.nextLine();
+                
+                System.out.print("Rok narozeni: ");
+                birthYear = sc.nextInt();
+                sc.nextLine(); // buffer cleanup
+                
+                System.out.print("Pohlavi (M/Z): ");
+                gender = Gender.of(sc.next().toUpperCase().charAt(0));
+                sc.nextLine(); // buffer cleanup
+                
+                System.out.print("Klub: ");
+                club = sc.nextLine();
+                
+                competition.addCompetitor(name, surname, birthYear, gender, club);
+            } catch (RuntimeException e) {
+                System.out.format("Neplatny vstup: %s%n", e.getMessage());
+            }
+            System.out.print("Chcete pokracovat? (a/n)");
+            ans = sc.next().toLowerCase().charAt(0);
+            sc.nextLine(); // buffer cleanup
+        } while (ans == 'a');
     }
 
     private static void setStartTime() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            System.out.println("Zadejte cas startu (prazdne pro aktualni cas) (HH:MM:SS): ");
+            LocalTime time = LocalTime.parse(sc.next());
+            competition.setStartTimeAll(time);
+        } catch (RuntimeException e) {
+            System.out.format("Neplatny vstup: %s%n", e.getMessage());
+            sc.nextLine(); // buffer cleanup
+        }
     }
 
     private static void setStartTimeOffset() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            System.out.print("Zadejte cas startu (prazdne pro aktualni cas) (HH:MM:SS): ");
+            LocalTime time = LocalTime.parse(sc.next());
+            sc.nextLine(); // buffer cleanup
+            System.out.print("Zadejte odstup v minutach:");
+            Duration offset = Duration.of(sc.nextInt(),ChronoUnit.MINUTES);
+            sc.nextLine(); // buffer cleanup
+            competition.setStartTimeAll(time, offset);
+        } catch (RuntimeException e) {
+            System.out.format("Neplatny vstup: %s%n", e.getMessage());
+        }
     }
 
     private static void setFinishTime() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            System.out.print("Zadejte cislo zavodnika: ");
+            int number = sc.nextInt();
+            sc.nextLine(); // buffer cleanup
+            System.out.print("Zadejte cilovy cas (HH:MM:SS): ");
+            LocalTime time = LocalTime.parse(sc.next());
+            sc.nextLine(); // buffer cleanup
+            competition.setFinishTimeOf(number, time);
+        } catch (RuntimeException e) {
+            System.out.format("Neplatny vstup: %s%n", e.getMessage());
+            sc.nextLine(); // buffer cleanup
+        }
     }
 
     private static void displayCompetitors() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    private static void displayCompetitorList() {
         System.out.println(competition.getCompetitorList());
     }
     
