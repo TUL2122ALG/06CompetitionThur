@@ -19,7 +19,6 @@ public class Zavodnik implements Comparable<Zavodnik> {
     private static int startNumberCounter = 1;
     private LocalTime startTime;
     private LocalTime finishTime;
-    private Duration time;
     
     
     // Constructors
@@ -100,10 +99,10 @@ public class Zavodnik implements Comparable<Zavodnik> {
     
     public Duration getTime() {
         if (getState() == ZavodnikState.FINISHED) {
-            time = Duration.between(startTime, finishTime);
+            return Duration.between(startTime, finishTime);
+        } else {
+            throw new IllegalStateException("Zavodnik jeste nedokoncil zavod.");
         }
-        
-        return time;
     }
     
     public long getTimeInSeconds() {
