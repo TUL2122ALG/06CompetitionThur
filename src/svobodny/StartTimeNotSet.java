@@ -8,10 +8,10 @@ package svobodny;
  *
  * @author hynek.vaclav.svobodny
  */
-public class StartTimeNotSet extends RuntimeException {
+public class StartTimeNotSet extends IllegalStateException {
 
-    public StartTimeNotSet(String message) {
-        super(message);
+    public StartTimeNotSet(Zavodnik z) {
+        super(String.format("U zavodnika %d nebyl nastaven cas startu, nelze nastavit cas v cili.", z.getStartNumber()));
     }
     
 }

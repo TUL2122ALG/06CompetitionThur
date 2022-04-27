@@ -4,6 +4,8 @@
  */
 package svobodny;
 
+import java.util.NoSuchElementException;
+
 /**
  *
  * @author hynek.vaclav.svobodny
@@ -28,7 +30,7 @@ public enum Gender {
             case "zeny":
                 return FEMALE;
             default:
-                return null;
+                throw new NoSuchElementException("Neexistujici pohlavi");
         }
     }
     

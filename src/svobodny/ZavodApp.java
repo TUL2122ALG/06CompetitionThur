@@ -35,25 +35,17 @@ public class ZavodApp {
             
             choice = sc.next().charAt(0);
             sc.nextLine(); // buffer cleanup
-            switch (choice) {
-                case '1':
-                    registerCompetitors();
-                    break;
-                case '2':
-                    setStartTime();
-                    break;
-                case '3':
-                    setStartTimeOffset();
-                    break;
-                case '4':
-                    setFinishTime();
-                    break;
-                case '5':
-                    displayCompetitors();
-                    break;
-                case '6':
-                    displayResultList();
-                    break;
+            try {
+                switch (choice) {
+                    case '1' -> registerCompetitors();
+                    case '2' -> setStartTime();
+                    case '3' -> setStartTimeOffset();
+                    case '4' -> setFinishTime();
+                    case '5' -> displayCompetitors();
+                    case '6' -> displayResultList();
+                }
+            } catch (RuntimeException e) {
+                handleErrors(e);
             }
             
         } while (choice != '0');
@@ -106,11 +98,12 @@ public class ZavodApp {
                 sc.nextLine(); // buffer cleanup
                 
                 System.out.print("Klub: ");
-                club = sc.nextLine();
+                club = sc.next();
+                sc.nextLine(); // buffer cleanup
                 
                 competition.addCompetitor(name, surname, birthYear, gender, club);
             } catch (RuntimeException e) {
-                System.out.format("Neplatny vstup: %s%n", e.getMessage());
+                handleErrors(e);
             }
             System.out.print("Chcete pokracovat? (a/n)");
             ans = sc.next().toLowerCase().charAt(0);
@@ -119,43 +112,29 @@ public class ZavodApp {
     }
 
     private static void setStartTime() {
-        try {
-            System.out.println("Zadejte cas startu (prazdne pro aktualni cas) (HH:MM:SS): ");
-            LocalTime time = LocalTime.parse(sc.next());
-            competition.setStartTimeAll(time);
-        } catch (RuntimeException e) {
-            System.out.format("Neplatny vstup: %s%n", e.getMessage());
-            sc.nextLine(); // buffer cleanup
-        }
+        System.out.println("Zadejte cas startu (prazdne pro aktualni cas) (HH:MM:SS): ");
+        LocalTime time = LocalTime.parse(sc.next());
+        competition.setStartTimeAll(time);
     }
 
     private static void setStartTimeOffset() {
-        try {
-            System.out.print("Zadejte cas startu (prazdne pro aktualni cas) (HH:MM:SS): ");
-            LocalTime time = LocalTime.parse(sc.next());
-            sc.nextLine(); // buffer cleanup
-            System.out.print("Zadejte odstup v minutach:");
-            Duration offset = Duration.of(sc.nextInt(),ChronoUnit.MINUTES);
-            sc.nextLine(); // buffer cleanup
-            competition.setStartTimeAll(time, offset);
-        } catch (RuntimeException e) {
-            System.out.format("Neplatny vstup: %s%n", e.getMessage());
-        }
+        System.out.print("Zadejte cas startu (prazdne pro aktualni cas) (HH:MM:SS): ");
+        LocalTime time = LocalTime.parse(sc.next());
+        sc.nextLine(); // buffer cleanup
+        System.out.print("Zadejte odstup v minutach:");
+        Duration offset = Duration.of(sc.nextInt(),ChronoUnit.MINUTES);
+        sc.nextLine(); // buffer cleanup
+        competition.setStartTimeAll(time, offset);
     }
 
     private static void setFinishTime() {
-        try {
-            System.out.print("Zadejte cislo zavodnika: ");
-            int number = sc.nextInt();
-            sc.nextLine(); // buffer cleanup
-            System.out.print("Zadejte cilovy cas (HH:MM:SS): ");
-            LocalTime time = LocalTime.parse(sc.next());
-            sc.nextLine(); // buffer cleanup
-            competition.setFinishTimeOf(number, time);
-        } catch (RuntimeException e) {
-            System.out.format("Neplatny vstup: %s%n", e.getMessage());
-            sc.nextLine(); // buffer cleanup
-        }
+        System.out.print("Zadejte cislo zavodnika: ");
+        int number = sc.nextInt();
+        sc.nextLine(); // buffer cleanup
+        System.out.print("Zadejte cilovy cas (HH:MM:SS): ");
+        LocalTime time = LocalTime.parse(sc.next());
+        sc.nextLine(); // buffer cleanup
+        competition.setFinishTimeOf(number, time);
     }
 
     private static void displayCompetitors() {
@@ -164,6 +143,21 @@ public class ZavodApp {
     
     private static void displayResultList() {
         System.out.println(competition.getResultList());
+    }
+    
+    private static void handleErrors(RuntimeException e) {
+        if (e instanceof InputMismatchException || e instanceof IllegalArgumentException || e instanceof DateTimeParseException) {
+            System.out.println("Neplatny vstup.");
+            if (sc.hasNextLine()) {
+                sc.nextLine();
+            }
+        } else if (e instanceof NoSuchElementException) {
+            System.out.println(e.getMessage());
+        } else if (e instanceof IllegalStateException) {
+            System.out.format("Neplatny stav: %s%n", e.getMessage());
+        } else if (e instanceof RuntimeException) {
+            System.out.format("Chyba %s: %s%n", e.getClass().getSimpleName(), e.getMessage());
+        }
     }
     
 }
