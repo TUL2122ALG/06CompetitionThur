@@ -100,7 +100,7 @@ public class Zavodnik implements Comparable<Zavodnik> {
         if (getState() == ZavodnikState.FINISHED) {
             return Duration.between(startTime, finishTime);
         } else {
-            throw new IllegalStateException("Zavodnik jeste nedokoncil zavod.");
+            return null;
         }
     }
     
