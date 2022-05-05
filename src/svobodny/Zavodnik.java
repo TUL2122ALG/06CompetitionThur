@@ -43,7 +43,6 @@ public class Zavodnik implements Comparable<Zavodnik> {
         this.startNumber = z.startNumber;
         this.startTime = z.startTime;
         this.finishTime = z.finishTime;
-        this.time = z.getTime();
     }
     
     // Factory method
@@ -125,7 +124,7 @@ public class Zavodnik implements Comparable<Zavodnik> {
 
     public void setFinishTime(LocalTime finishTime) {
         if (this.startTime == null) {
-            throw new StartTimeNotSet("Nebyl nastaven cas startu, nelze nastavit cas v cili.");
+            throw new StartTimeNotSet(new Zavodnik(this));
         }
         this.finishTime = finishTime;
         getTime();

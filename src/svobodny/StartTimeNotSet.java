@@ -14,4 +14,6 @@ public class StartTimeNotSet extends IllegalStateException {
         super(String.format("U zavodnika %d nebyl nastaven cas startu, nelze nastavit cas v cili.", z.getStartNumber()));
     }
     
+    
+    
 }
