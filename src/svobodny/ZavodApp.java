@@ -64,6 +64,7 @@ public class ZavodApp {
     }
 
     private static void displayMenu() {
+        System.out.println("");
         System.out.println("Vyber:");
         System.out.println("1. Zapsani zavodniku");
         System.out.println("2. Nastavit cas startu (hromadne)");
