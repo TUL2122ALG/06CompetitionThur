@@ -41,7 +41,7 @@ public enum Gender {
             case 'Z':
                 return FEMALE;
             default:
-                return null;
+                throw new NoSuchElementException("Neexistujici pohlavi");
         }
     }
     
