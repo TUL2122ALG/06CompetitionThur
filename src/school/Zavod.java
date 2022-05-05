@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -15,7 +16,7 @@ public class Zavod {
     
     //data
     private String name;
-    private ArrayList<Zavodnik> competitors;
+    private List<Zavodnik> competitors; //programovani vuci interface Lit
     
     //konstruktor
     public Zavod(String name){
@@ -40,14 +41,14 @@ public class Zavod {
     public void loadFinish(File finishFile) throws FileNotFoundException{
         try(Scanner in = new Scanner(finishFile)){
             int number;
-            String casDobehu;
+            String finishTime;
             Zavodnik r;
             in.nextLine();
             while(in.hasNext()){
                 number = in.nextInt();
-                casDobehu = in.next();
+                finishTime = in.next();
                 r = findByRegNumber(number);
-                r.setFinishTime(name);
+                r.setFinishTime(finishTime);
             }
         }
     }
@@ -101,27 +102,27 @@ public class Zavod {
         throw new NoSuchElementException("Zavodnik s cislem " + registrationNumber + " neexistuje.");
     }
     
-//    public Zavodnik findFastest(){
-//        int fastestTime = Integer.MAX_VALUE; int fastestIndex = -1;
-//        for(int i = 0; i < competitors.size(); i++){
-//            if(competitors.get(i).getTime() < fastestTime){
-//                fastestTime = competitors.get(i).getTime();
-//                fastestIndex = i;
-//            }
-//        }
-//        return new Zavodnik(competitors.get(fastestIndex));
-//    }
+    public Zavodnik findFastest(){
+        int fastestTime = Integer.MAX_VALUE; int fastestIndex = -1;
+        for(int i = 0; i < competitors.size(); i++){
+            if(competitors.get(i).getTime() < fastestTime){
+                fastestTime = competitors.get(i).getTime();
+                fastestIndex = i;
+            }
+        }
+        return new Zavodnik(competitors.get(fastestIndex));
+    }
     
-//    public int findFastestNumber(){
-//        int fastestTime = Integer.MAX_VALUE; int fastest = -1;
-//        for(int i = 0; i < competitors.size(); i++){
-//            if(competitors.get(i).getTime() < fastestTime){
-//                fastestTime = competitors.get(i).getTime();
-//                fastest = competitors.get(i).getRegistracniCislo();
-//            }
-//        }
-//        return fastest;
-//    }
+    public int findFastestNumber(){
+        int fastestTime = Integer.MAX_VALUE; int fastest = -1;
+        for(int i = 0; i < competitors.size(); i++){
+            if(competitors.get(i).getTime() < fastestTime){
+                fastestTime = competitors.get(i).getTime();
+                fastest = competitors.get(i).getRegistracniCislo();
+            }
+        }
+        return fastest;
+    }
     
     private void sortByTime(){
         Collections.sort(competitors);
@@ -144,6 +145,7 @@ public class Zavod {
         Scanner sc = new Scanner(System.in);
         Zavod jiz50 = new Zavod("Jiz50");
         System.out.println(jiz50);
+        System.out.println("Zadej soubor startu");
         try{
             while(true){
                 try{
@@ -159,20 +161,20 @@ public class Zavod {
     //        jiz50.addCompetitor("Cyril", "drahy", 1991, 'M', "Sk Jablonec");
             System.out.println(jiz50);
         }catch(IOException e){
-            System.out.println("systemova chyba pri praci se souborem");
+            System.out.println("Systemova chyba pri praci se souborem");
     
             
         }
         jiz50.setstartTimeAll(9, 0, 0, 2);
         System.out.println(jiz50);
-        jiz50.loadFinish(new File("finish.txt"));
+        jiz50.loadFinish(new File("finish.txt")); //melo by se osetrit podobne jako start nidy nevyhazujte vyjimku z main, tady je to jen pro testovani
 //        jiz50.setFinishTimeOf(1, 10, 0, 0);
 //        jiz50.setFinishTimeOf(2, 10, 10, 0);
 //        jiz50.setFinishTimeOf(3, 10, 1, 0);
         System.out.println(jiz50);
 //        System.out.println("Nejrychlejsi: " + jiz50.findFastest());
-//        jiz50.sortByTime();
-//        System.out.println(jiz50);
+        jiz50.sortByTime();
+        System.out.println(jiz50);
 //        jiz50.sortByPrijmeni();
 //        System.out.println(jiz50);
     }
