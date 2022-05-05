@@ -1,20 +1,56 @@
 package school;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 public class Zavod {
     
     //data
     private String name;
-    private ArrayList<Zavodnik> competitors;
+    private List<Zavodnik> competitors; //programovani vuci interface Lit
     
     //konstruktor
     public Zavod(String name){
         this.name = name;
         this.competitors = new ArrayList<>();
+    }
+    
+    public void loadStart(File startFile) throws FileNotFoundException, IOException {
+        try(BufferedReader br = new BufferedReader(new FileReader(startFile))){
+            String line;
+            String[] parts;
+            Zavodnik r;
+            br.readLine(); //preskoceni hlavicky
+            while ((line = br.readLine()) != null){
+                parts = line.split("[ ]+");
+                r = new Zavodnik(parts[0], parts[1], Integer.parseInt(parts[2]), parts[3].charAt(0), parts[4]);
+                competitors.add(r);
+            }
+        }
+    }
+    
+    public void loadFinish(File finishFile) throws FileNotFoundException{
+        try(Scanner in = new Scanner(finishFile)){
+            int number;
+            String finishTime;
+            Zavodnik r;
+            in.nextLine();
+            while(in.hasNext()){
+                number = in.nextInt();
+                finishTime = in.next();
+                r = findByRegNumber(number);
+                r.setFinishTime(finishTime);
+            }
+        }
     }
     
     //gettery
@@ -105,23 +141,41 @@ public class Zavod {
         return sb.toString();
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
         Zavod jiz50 = new Zavod("Jiz50");
         System.out.println(jiz50);
-        jiz50.addCompetitor("Alice", "Mala", 1980, 'F', "Sk Liberec");
-        jiz50.addCompetitor("Bob", "Hruby", 1969, 'M', "Sk Liberec");
-        jiz50.addCompetitor("Cyril", "drahy", 1991, 'M', "Sk Jablonec");
-        System.out.println(jiz50);
+        System.out.println("Zadej soubor startu");
+        try{
+            while(true){
+                try{
+                    jiz50.loadStart(new File(sc.next()));
+                    break;
+                } catch (FileNotFoundException e){
+                    System.out.println(e.getMessage());
+                    System.out.println("Zadej znova");
+                }
+            }
+    //        jiz50.addCompetitor("Alice", "Mala", 1980, 'F', "Sk Liberec");
+    //        jiz50.addCompetitor("Bob", "Hruby", 1969, 'M', "Sk Liberec");
+    //        jiz50.addCompetitor("Cyril", "drahy", 1991, 'M', "Sk Jablonec");
+            System.out.println(jiz50);
+        }catch(IOException e){
+            System.out.println("Systemova chyba pri praci se souborem");
+    
+            
+        }
         jiz50.setstartTimeAll(9, 0, 0, 2);
         System.out.println(jiz50);
-        jiz50.setFinishTimeOf(1, 10, 0, 0);
-        jiz50.setFinishTimeOf(2, 10, 10, 0);
-        jiz50.setFinishTimeOf(3, 10, 1, 0);
+        jiz50.loadFinish(new File("finish.txt")); //melo by se osetrit podobne jako start nidy nevyhazujte vyjimku z main, tady je to jen pro testovani
+//        jiz50.setFinishTimeOf(1, 10, 0, 0);
+//        jiz50.setFinishTimeOf(2, 10, 10, 0);
+//        jiz50.setFinishTimeOf(3, 10, 1, 0);
         System.out.println(jiz50);
-        System.out.println("Nejrychlejsi: " + jiz50.findFastest());
+//        System.out.println("Nejrychlejsi: " + jiz50.findFastest());
         jiz50.sortByTime();
         System.out.println(jiz50);
-        jiz50.sortByPrijmeni();
-        System.out.println(jiz50);
+//        jiz50.sortByPrijmeni();
+//        System.out.println(jiz50);
     }
 }
