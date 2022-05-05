@@ -3,6 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package svobodny;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -10,6 +15,7 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Scanner;
 import java.util.StringJoiner;
 
 /**
@@ -27,6 +33,34 @@ public class Zavod {
         this.competitors = new ArrayList<>();
     }
     
+    private void loadStart(File startFile) throws FileNotFoundException, IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader(startFile))) {
+            String line;
+            String[] parts;
+            Zavodnik r;
+            br.readLine(); // preskoceni hl
+            while ((line = br.readLine()) != null) {
+                parts = line.split("[ ]+");
+                r = new Zavodnik(parts[0], parts[1], Integer.parseInt(parts[2]), Gender.of(parts[3].charAt(0)), parts[4]);
+                competitors.add(r);
+            }
+        }
+    }
+    
+    public void loadFinish(File finishFile) throws FileNotFoundException {
+        try(Scanner in = new Scanner(finishFile)) {
+            int number;
+            String casDobehu;
+            Zavodnik r;
+            in.nextLine();
+            while(in.hasNext()) {
+                number = in.nextInt();
+                casDobehu = in.next();
+                r = findByStartNumber(number);
+                
+            }
+        }
+    }
     
     // Getters
 
@@ -140,6 +174,8 @@ public class Zavod {
     // TODO
     @Override
     public String toString() {
+        Scanner sc = new Scanner(System.in);
+        
         StringJoiner sj = new StringJoiner(System.getProperty("line.separator"));
         for (Zavodnik competitor : competitors) {
             sj.add(competitor.toString());
@@ -149,11 +185,24 @@ public class Zavod {
     
     // Testing
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
         Zavod jiz50 = new Zavod("Jiz50");
         System.out.println(jiz50);
-        jiz50.addCompetitor("Alice", "Mala", 1980, Gender.FEMALE, "Sliberec");
-        jiz50.addCompetitor("Bob", "Hruby", 1969, Gender.MALE, "Skiberec");
-        jiz50.addCompetitor("Cyril", "drahy", 1991, Gender.MALE, "Skjablonec");
+        while(true) {
+            try {
+                jiz50.loadStart(new File(sc.next()));
+                break;
+            } catch (FileNotFoundException e) {
+                System.out.println(e.getMessage());
+                System.out.println("Zadej znova");
+            } catch (IOException e) {
+                System.out.println("Systemova chyba pri praci se souborem");
+            }
+        }
+        
+//        jiz50.addCompetitor("Alice", "Mala", 1980, Gender.FEMALE, "Sliberec");
+//        jiz50.addCompetitor("Bob", "Hruby", 1969, Gender.MALE, "Skiberec");
+//        jiz50.addCompetitor("Cyril", "drahy", 1991, Gender.MALE, "Skjablonec");
         System.out.println(jiz50);
         System.out.println("");
         //jiz50.setStartTimeAll(9, 0, 0, 2);
