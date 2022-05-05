@@ -20,8 +20,10 @@ public class Zavodnik implements Comparable<Zavodnik>{
     private String prijmeni;
     private int rocnik;
     private int registracniCislo;
-    private Date startTime;
-    private LocalTime finishTime;
+//    private Date startTime;
+//    private LocalTime finishTime;
+    private int startTime;
+    private int finishTime;
     private int time;
     private char pohlavi;
     private static int pocitadlo = 1;
@@ -90,7 +92,8 @@ public class Zavodnik implements Comparable<Zavodnik>{
     }
 
     public int getStartTime() {
-        return startTime.getTime();
+        //return startTime.getTime();
+        return startTime;
     }
 
     public int getFinishTime() {
@@ -127,16 +130,16 @@ public class Zavodnik implements Comparable<Zavodnik>{
     }
 
     public void setStartTime(int startTime) { //9*3600 + 12*60
-        //this.startTime = startTime;
-        this.startTime = new Date(startTime);
+        this.startTime = startTime;
+        //this.startTime = new Date(startTime);
     }
 
     public void setFinishTime(int finishTime) {
-        if (startTime == null){
-        //if(this.startTime == 0){
+        //if (startTime == null){
+        if(this.startTime == 0){
             throw new StartTimeNotSet("Nebyl nastaven cas startu, nelze nastavit cas v cili.");
         }
-        this.finishTime = LocalTime.ofSecondOfDay(finishTime);
+        //this.finishTime = LocalTime.ofSecondOfDay(finishTime);
         getTime();
     }
 
