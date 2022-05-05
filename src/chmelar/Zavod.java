@@ -4,10 +4,16 @@
  */
 package chmelar;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 /**
  *
@@ -23,7 +29,35 @@ public class Zavod {
         this.jmeno = jmeno;
         zavodici = new ArrayList<>();
     }
+    
+    public void loadStart(File startFile) throws FileNotFoundException, IOException {
+        try(BufferedReader br = new BufferedReader(new FileReader(startFile))){;
+        String line;
+        String[] parts;
+        Zavodnik r;
+        br.readLine();
+        while ((line = br.readLine()) != null) {
+            parts = line.split("[ ]+");
+            r = new Zavodnik(parts[0], parts[1], Integer.parseInt(parts[2]), parts[3].charAt(0), parts[4]);
+            zavodici.add(r);
+        }
+        }
+    }
 
+    public void loadFinish(File finishFile) throws FileNotFoundException, IOException {
+        try(Scanner in = new Scanner(finishFile)){;
+            int number;
+            String casDobehu;
+            Zavodnik r;
+            in.nextLine();
+            while(in.hasNext()){
+                number = in.nextInt();
+                casDobehu = in.next();
+                r = findByRegNumber(number);
+                r.setFinishTime(casDobehu);
+            }
+        }
+    }
     public String getJmeno() {
         return jmeno;
     }
@@ -49,8 +83,8 @@ public class Zavod {
         //zavodnik_pocet++;
     }
     
-    public void addZavodnik(String jmeno, String prijmeni, int rocnik, char pohlavi){
-        zavodici.add(Zavodnik.getInstance(jmeno,prijmeni,rocnik,pohlavi));
+    public void addZavodnik(String jmeno, String prijmeni, int rocnik, char pohlavi, String klub){
+        zavodici.add(Zavodnik.getInstance(jmeno,prijmeni,rocnik,pohlavi,klub));
     }
     
     public String toString(){
@@ -102,27 +136,51 @@ public class Zavod {
     }
     
     public void addCompetitor(String name, String surname, int year, char gender, String club){
-        zavodici.add(Zavodnik.getInstance(name, surname, year, gender));
+        zavodici.add(Zavodnik.getInstance(name, surname, year, gender, club));
     }
     
         public static void main(String[] args) {
+            Scanner sc = new Scanner(System.in);
         Zavod jiz50 = new Zavod("Jiz50");
         System.out.println(jiz50);
-        jiz50.addCompetitor("Alice", "Mala", 1980, 'F', "Sk Liberec");
+        try{
+            while(true){
+                try{
+                    jiz50.loadStart(new File(sc.next()/*"start.txt"*/));
+                    break;
+                } catch(FileNotFoundException e){
+                    System.out.println(e.getMessage());
+                    System.out.println("Zadej znova");
+                }
+            }
+            System.out.println(jiz50);
+            jiz50.setstartTimeAll(9, 0, 0, 2);
+            System.out.println(jiz50);
+            while(true){
+                try{
+                    jiz50.loadFinish(new File(sc.next()/*"finish.txt"*/));
+                    break;
+                } catch(FileNotFoundException e){
+                    System.out.println(e.getMessage());
+                    System.out.println("Zadej znova");
+                }
+            }
+       
+        /*jiz50.addCompetitor("Alice", "Mala", 1980, 'F', "Sk Liberec");
         jiz50.addCompetitor("Bob", "Hruby", 1969, 'M', "Sk Liberec");
-        jiz50.addCompetitor("Cyril", "drahy", 1991, 'M', "Sk Jablonec");
-        System.out.println(jiz50);
-        jiz50.setstartTimeAll(9, 0, 0, 2);
-        System.out.println(jiz50);
-        jiz50.setFinishTime(1, 10, 0, 0);
+        jiz50.addCompetitor("Cyril", "Drahy", 1991, 'M', "Sk Jablonec");*/
+        /*jiz50.setFinishTime(1, 10, 0, 0);
         jiz50.setFinishTime(2, 10, 10, 0);
-        jiz50.setFinishTime(3, 10, 1, 0);
+        jiz50.setFinishTime(3, 10, 1, 0);*/
         System.out.println(jiz50);
         System.out.println("Nejrychlejsi: " + jiz50.nejrychlejsi());
         jiz50.sortByTime();
         System.out.println(jiz50);
         jiz50.sortByPrijmeni();
         System.out.println(jiz50);
+        }catch(IOException e){
+            System.out.println("Systémová chyba při práci se souborem");
+        }
     }
     
     
