@@ -1,4 +1,4 @@
 jmeno prijmeni rocnik pohlavi klub
-Alice   Mala 2000 F Sokol
+Alice  Mala 2000 Z Sokol
 Bob Velky 1999 M Sokol
 Cyril Stredny 2002 M Slavia
