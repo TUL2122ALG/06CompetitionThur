@@ -50,14 +50,14 @@ public class Zavod {
     public void loadFinish(File finishFile) throws FileNotFoundException {
         try(Scanner in = new Scanner(finishFile)) {
             int number;
-            String casDobehu;
+            String finishTime;
             Zavodnik r;
             in.nextLine();
             while(in.hasNext()) {
                 number = in.nextInt();
-                casDobehu = in.next();
+                finishTime = in.next();
                 r = findByStartNumber(number);
-                
+                r.setFinishTime(finishTime);
             }
         }
     }
@@ -184,20 +184,23 @@ public class Zavod {
     }
     
     // Testing
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         Scanner sc = new Scanner(System.in);
         Zavod jiz50 = new Zavod("Jiz50");
         System.out.println(jiz50);
-        while(true) {
-            try {
-                jiz50.loadStart(new File(sc.next()));
-                break;
-            } catch (FileNotFoundException e) {
-                System.out.println(e.getMessage());
-                System.out.println("Zadej znova");
-            } catch (IOException e) {
-                System.out.println("Systemova chyba pri praci se souborem");
-            }
+        System.out.println("Zadej soubor startu");
+        try {
+             while(true) {
+                try {
+                    jiz50.loadStart(new File(sc.next()));
+                    break;
+                } catch (FileNotFoundException e) {
+                    System.out.println(e.getMessage());
+                    System.out.println("Zadej znova");
+                }
+             }
+        } catch (IOException e) {
+            System.out.println("Systemova chyba pri praci se souborem");
         }
         
 //        jiz50.addCompetitor("Alice", "Mala", 1980, Gender.FEMALE, "Sliberec");
@@ -209,9 +212,10 @@ public class Zavod {
         jiz50.setStartTimeAll(LocalTime.of(9,0,0),Duration.of(30,ChronoUnit.SECONDS));
         System.out.println(jiz50);
         System.out.println("");
-        jiz50.setFinishTimeOf(1, 10, 0, 0);
-        jiz50.setFinishTimeOf(2, LocalTime.of(10, 56, 32));
-        jiz50.setFinishTimeOf(3, 10, 1, 0);
+        jiz50.loadFinish(new File("finish.txt"));
+//        jiz50.setFinishTimeOf(1, 10, 0, 0);
+//        jiz50.setFinishTimeOf(2, LocalTime.of(10, 56, 32));
+//        jiz50.setFinishTimeOf(3, 10, 1, 0);
         System.out.println(jiz50);
         System.out.println("");
         System.out.println("Nejrychlejsi:\n" + jiz50.findFastest());
