@@ -142,9 +142,17 @@ public class Race {
         return TimeTools.secondsToTimeString(this.raceStartTime);
     }
 
-    public void saveToFile( File results) throws IOException{
-        try(PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(results)))){
-            pw.println(x);
+    public void saveToFile(File results) throws IOException {
+        // results, true = append true
+        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(results)))) {
+            pw.println(String.format("%5s %10s %10s %5s %1s %10s %10s %10s", "Por", "Jméno", "Příjmení,", "Věk",
+                    "Pohlaví", "Start", "Stop", "Něco"));
+            int rank = 1;
+            for (Racer racer : racers) {
+                pw.println(String.format("%d.", rank));
+                pw.println(racer);
+                rank++;
+            }
         }
     }
 
@@ -178,7 +186,6 @@ public class Race {
             while (true) {
                 try {
                     jiz50.loadStart(new File(sc.nextLine()));
-                    jiz50.loadFinish(new File(sc.nextLine()));
                     break;
                 } catch (FileNotFoundException e) {
                     System.out.println(e.getMessage());
@@ -186,6 +193,10 @@ public class Race {
                 }
             }
             System.out.println(jiz50);
+            jiz50.loadFinish(new File(sc.nextLine()));
+            System.out.println(jiz50);
+            System.out.println("Zadej soubor pro výsledky");
+            jiz50.saveToFile(new File(sc.nextLine()));
         } catch (
 
         IOException e) {

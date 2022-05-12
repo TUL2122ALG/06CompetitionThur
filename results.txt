@@ -1,0 +1,10 @@
+  Por      Jméno  Příjmení,   Věk Pohlaví      Start       Stop       Něco
+1.
+
+[null]Alice 	 Mala       	 2000 00 0000 	 00:00:00 	 00:00:00 	 REGISTRATED
+2.
+
+[null]Bob   	 Velky      	 1999 00 0000 	 00:00:00 	 00:00:00 	 REGISTRATED
+3.
+
+[null]Cyril 	 Stredny    	 2002 00 0000 	 00:00:00 	 00:00:00 	 REGISTRATED
