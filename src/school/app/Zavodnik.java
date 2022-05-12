@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package school;
+package school.app;
 
 /**
  *
@@ -12,6 +12,8 @@ package school;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
+import school.utils.StartTimeNotSet;
+import school.utils.TimeTools;
 
 
 public class Zavodnik implements Comparable<Zavodnik>{
@@ -40,11 +42,24 @@ public class Zavodnik implements Comparable<Zavodnik>{
         Zavodnik.pocitadlo++;
     }
     
+    public Zavodnik(String jmeno, String prijmeni, int rocnik, char pohlavi) {
+        this.jmeno = jmeno;
+        this.prijmeni = prijmeni;
+        this.rocnik = rocnik;
+        this.pohlavi = pohlavi;
+        this.registracniCislo = pocitadlo;
+        Zavodnik.pocitadlo++;
+    }
+    
     private String checkClub(String club){//Sokol So Sooooo
         if(!club.matches("^[A-Z][a-z]+$")){
             throw new IllegalArgumentException("Nevalidni nazev klubu. Validni zacina velkym pismenem a ma jedna a vice dalsich pismen");
         }
         return club;
+    }
+    
+    public void setClub(String club){
+        this.klub = checkClub(club);
     }
    
     
