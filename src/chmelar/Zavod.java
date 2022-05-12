@@ -5,10 +5,18 @@
 package chmelar;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -58,6 +66,78 @@ public class Zavod {
             }
         }
     }
+    
+    public void saveToFile(File results) throws FileNotFoundException, IOException {
+        try(PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(results,true)))){
+            pw.println(String.format("%5s %5s %10s %10s %5s %1s %10s %10s %10s", "Por.", "Cis.", "Jmeno", "Prijmeni", "Vek", "P", "Start", "Finish", "Doba"));
+            int rank = 1;
+            for (Zavodnik zavodnik : zavodici) {
+                pw.print(String.format("%4d", rank));
+                pw.println(zavodnik.toString());
+                
+                
+                rank++;
+            }
+        }
+    }
+    
+    public void saveToBinaryFile(File results) throws FileNotFoundException, IOException {
+        try(DataOutputStream out = new DataOutputStream(new FileOutputStream(results, true))){
+            out.writeInt(zavodici.size());
+            for (Zavodnik zavodnik : zavodici) {
+                out.writeInt(zavodnik.getRegistracniCislo());
+                int nLetters = zavodnik.getJmeno().length();
+                out.writeInt(nLetters);
+                for (int i = 0; i < nLetters; i++) {
+                    out.writeChar(zavodnik.getJmeno().charAt(i));
+                }
+                
+                out.writeUTF(zavodnik.getPrijmeni());
+                out.writeInt(zavodnik.getTime());
+               
+            }
+        
+        
+        }
+    
+    
+    }
+    
+    
+    public String readFromBinaryResults(File results) throws FileNotFoundException, IOException{
+        StringBuilder sb = new StringBuilder();
+        int number, lengthName, time,rank = 1;
+        String name = "", surename = "";
+        boolean end = false;
+        try(DataInputStream in = new DataInputStream(new FileInputStream(results))){
+            while(!end){
+            try{
+                rank = 1;
+            int nCompetitors = in.readInt();
+            for (int i = 0; i < nCompetitors; i++) {
+                number = in.readInt();
+                lengthName = in.readInt();
+                name = "";
+                for (int j = 0; j < lengthName; j++) {
+                    name += in.readChar();
+                }
+                surename = in.readUTF();
+                time = in.readInt();
+                
+                sb.append(String.format("%3d. %10s %10s %3d %10s%n", rank, name, surename, number, TimeTools.secondsToTime(time)));
+                rank++;
+            }
+            }   catch(EOFException e){
+                    end = true;
+                }
+        
+            }
+        return sb.toString();
+    
+        }
+        
+    }
+    
     public String getJmeno() {
         return jmeno;
     }
@@ -178,6 +258,11 @@ public class Zavod {
         System.out.println(jiz50);
         jiz50.sortByPrijmeni();
         System.out.println(jiz50);
+        System.out.println("Zadej soubor");
+        String filename = sc.next();
+        jiz50.saveToFile(new File(filename));
+        jiz50.saveToBinaryFile(new File("results.dat"));
+            System.out.println(jiz50.readFromBinaryResults(new File("results.dat")));
         }catch(IOException e){
             System.out.println("Systémová chyba při práci se souborem");
         }
