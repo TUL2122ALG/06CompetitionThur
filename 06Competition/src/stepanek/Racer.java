@@ -26,6 +26,16 @@ public class Racer implements Comparable<Racer> {
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.racingStatus = RacingStatus.REGISTRATED;
+
+    }
+
+    Racer(String firstName, String lastName, String dateOfBirth, String club) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        //this.gender = gender;
+        this.racingStatus = RacingStatus.REGISTRATED;
+        this.club = club;
     }
 
     public static Racer getInstanceOf(String firstName, String lastName, String dateOfBirth, Gender gender) {
