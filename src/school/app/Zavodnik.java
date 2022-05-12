@@ -1,16 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package school.app;
 
-/**
- *
- * @author 
- */
 import java.time.LocalDate;
-import java.time.LocalTime;
+//import java.time.LocalTime;
 import java.util.Scanner;
 import school.utils.StartTimeNotSet;
 import school.utils.TimeTools;
@@ -22,13 +13,13 @@ public class Zavodnik implements Comparable<Zavodnik>{
     private String prijmeni;
     private int rocnik;
     private int registracniCislo;
-//    private Date startTime;
-//    private LocalTime finishTime;
+//    private Date startTime; //ukazka kompozice s vlastni tridou
+//    private LocalTime finishTime; //ukazka kompozice s existujici tridou
     private int startTime;
     private int finishTime;
     private int time;
     private char pohlavi;
-    private static int pocitadlo = 1;
+    private static int pocitadlo = 1; //ukazka pouziti static atributu - v realnem projektu, generovat registracni cisla az v zavode
     
     private String klub;
 
@@ -52,7 +43,7 @@ public class Zavodnik implements Comparable<Zavodnik>{
     }
     
     private String checkClub(String club){//Sokol So Sooooo
-        if(!club.matches("^[A-Z][a-z]+$")){
+        if(!club.matches("^[A-Z][a-z]+$")){ //ukazka pouziti regularniho vyrazu na test validity
             throw new IllegalArgumentException("Nevalidni nazev klubu. Validni zacina velkym pismenem a ma jedna a vice dalsich pismen");
         }
         return club;
@@ -62,7 +53,6 @@ public class Zavodnik implements Comparable<Zavodnik>{
         this.klub = checkClub(club);
     }
    
-    
    //kopie zavodnika | metoda clone()
     public Zavodnik(Zavodnik z){
         this.jmeno = z.jmeno;
