@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-package svobodny;
+package svobodny.ui;
 
+import svobodny.app.Zavod;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
@@ -11,6 +12,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import svobodny.Gender;
 
 /**
  *
