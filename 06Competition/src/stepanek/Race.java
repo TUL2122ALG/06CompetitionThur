@@ -1,10 +1,17 @@
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInput;
+import java.io.DataInputStream;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +56,6 @@ public class Race {
             while (in.hasNext()) {
                 number = in.nextInt();
                 finishTime = in.next();
-                // TODO: findByRegNumber()
                 r = findByRegNumber(number);
                 r.setRaceEndTimeSeconds(TimeTools.timeToSeconds(finishTime));
             }
@@ -145,7 +151,7 @@ public class Race {
     public void saveToFile(File results) throws IOException {
         // results, true = append true
         try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(results)))) {
-            pw.println(String.format("%5s %10s %10s %5s %1s %10s %10s %10s", "Por", "Jméno", "Příjmení,", "Věk",
+            pw.println(String.format("%10s %10s %10s %5s %1s %10s %10s %10s", "Por", "Jméno", "Příjmení,", "Věk",
                     "Pohlaví", "Start", "Stop", "Něco"));
             int rank = 1;
             for (Racer racer : racers) {
@@ -154,6 +160,56 @@ public class Race {
                 rank++;
             }
         }
+    }
+
+    public void saveToBinaryFile(File results) throws IOException {
+        int tempLength;
+        try (DataOutputStream out = new DataOutputStream(new FileOutputStream(results))) {
+            out.writeInt(racers.size());
+            for (Racer racer : racers) {
+                out.writeInt(racer.getStartingNumber());
+                tempLength = racer.getFirstName().length();
+                out.writeInt(tempLength);
+                for (int i = 0; i < tempLength; i++) {
+                    out.writeChar(racer.getFirstName().charAt(i));
+                }
+                out.writeUTF(racer.getLastName());
+                out.writeInt(racer.getRaceStartTimeSeconds());
+            }
+        }
+    }
+
+    public String readFromBinary(File file) throws FileNotFoundException, IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        int countOfRacers, number, lengthOfName, time, rank = 1;
+        String name, surname = "";
+
+        try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(file))) {
+            boolean end = false;
+            while (!end) {
+                try {
+                    rank = 1;
+                    countOfRacers = dataInputStream.readInt();
+                    for (int i = 0; i < countOfRacers; i++) {
+                        number = dataInputStream.readInt();
+                        lengthOfName = dataInputStream.readInt();
+                        name = "";
+                        for (int j = 0; j < lengthOfName; j++) {
+                            name += dataInputStream.readChar();
+                        }
+                        surname = dataInputStream.readUTF();
+                        time = dataInputStream.readInt();
+                        stringBuilder.append(String.format("%3d. %10s %10s %3d %10s %n", rank, name, surname, number,
+                                TimeTools.secondsToTimeString(time)));
+                        rank++;
+                    }
+                } catch (EOFException e) {
+                    end = true;
+                }
+            }
+        }
+
+        return stringBuilder.toString();
     }
 
     @Override
@@ -182,21 +238,26 @@ public class Race {
     public static void main(String[] args) throws FileNotFoundException, IOException {
         Race jiz50 = new Race("jiz50");
         Scanner sc = new Scanner(System.in);
+        String parentPath = System.getProperty("user.dir") + File.separator + "data";
+        File dataDirectory = new File(parentPath);
         try {
             while (true) {
                 try {
-                    jiz50.loadStart(new File(sc.nextLine()));
+                    jiz50.loadStart(new File(dataDirectory, sc.nextLine()));
+                    System.out.println(jiz50);
+                    jiz50.loadFinish(new File(sc.nextLine()));
+                    System.out.println(jiz50);
+                    System.out.println("Zadej soubor pro výsledky");
+                    jiz50.saveToFile(new File(sc.nextLine()));
+                    jiz50.saveToBinaryFile(new File("results.dat"));
+                    System.out.println(jiz50.readFromBinary(new File("results.dat")));
                     break;
                 } catch (FileNotFoundException e) {
                     System.out.println(e.getMessage());
                     System.out.println("Zadej jméno souboru znovu.");
                 }
             }
-            System.out.println(jiz50);
-            jiz50.loadFinish(new File(sc.nextLine()));
-            System.out.println(jiz50);
-            System.out.println("Zadej soubor pro výsledky");
-            jiz50.saveToFile(new File(sc.nextLine()));
+
         } catch (
 
         IOException e) {
