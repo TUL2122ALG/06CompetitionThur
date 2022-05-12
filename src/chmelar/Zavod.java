@@ -127,6 +127,7 @@ public class Zavod {
                 sb.append(String.format("%3d. %10s %10s %3d %10s%n", rank, name, surename, number, TimeTools.secondsToTime(time)));
                 rank++;
             }
+            sb.append("\n");
             }   catch(EOFException e){
                     end = true;
                 }
@@ -223,10 +224,12 @@ public class Zavod {
             Scanner sc = new Scanner(System.in);
         Zavod jiz50 = new Zavod("Jiz50");
         System.out.println(jiz50);
+            String parent = System.getProperty("user.dir") + File.separator + "data";
+            File dataDirectory = new File(parent);
         try{
             while(true){
                 try{
-                    jiz50.loadStart(new File(sc.next()/*"start.txt"*/));
+                    jiz50.loadStart(new File(dataDirectory, sc.next()/*"start.txt"*/));
                     break;
                 } catch(FileNotFoundException e){
                     System.out.println(e.getMessage());
@@ -238,7 +241,7 @@ public class Zavod {
             System.out.println(jiz50);
             while(true){
                 try{
-                    jiz50.loadFinish(new File(sc.next()/*"finish.txt"*/));
+                    jiz50.loadFinish(new File(dataDirectory, sc.next()/*"finish.txt"*/));
                     break;
                 } catch(FileNotFoundException e){
                     System.out.println(e.getMessage());
@@ -260,9 +263,9 @@ public class Zavod {
         System.out.println(jiz50);
         System.out.println("Zadej soubor");
         String filename = sc.next();
-        jiz50.saveToFile(new File(filename));
-        jiz50.saveToBinaryFile(new File("results.dat"));
-            System.out.println(jiz50.readFromBinaryResults(new File("results.dat")));
+        jiz50.saveToFile(new File(dataDirectory, filename));
+        jiz50.saveToBinaryFile(new File(dataDirectory, "results.dat"));
+            System.out.println(jiz50.readFromBinaryResults(new File(dataDirectory, "results.dat")));
         }catch(IOException e){
             System.out.println("Systémová chyba při práci se souborem");
         }
