@@ -1,8 +1,11 @@
-package svobodny;
+package svobodny.app;
 
 import java.time.LocalTime;
 import java.time.LocalDate;
 import java.time.Duration;
+import svobodny.Gender;
+import svobodny.utils.StartTimeNotSet;
+import svobodny.TimeTools;
 
 /**
  *
@@ -15,8 +18,8 @@ public class Zavodnik implements Comparable<Zavodnik> {
     private int birthYear;
     private Gender gender;
     private String club;
-    private int startNumber;
-    private static int startNumberCounter = 1;
+    private int regNumber;
+    private static int regNumberCounter = 1;
     private LocalTime startTime;
     private LocalTime finishTime;
     
@@ -29,8 +32,17 @@ public class Zavodnik implements Comparable<Zavodnik> {
         this.birthYear = birthYear;
         this.gender = gender;
         this.club = checkClub(club);
-        this.startNumber = startNumberCounter;
-        startNumberCounter++;
+        this.regNumber = regNumberCounter;
+        regNumberCounter++;
+    }
+    
+    public Zavodnik(String firstName, String surname, int birthYear, Gender gender) {
+        this.firstName = firstName;
+        this.surname = surname;
+        this.birthYear = birthYear;
+        this.gender = gender;
+        this.regNumber = regNumberCounter;
+        regNumberCounter++;
     }
     
     // copy | clone() method
@@ -40,7 +52,7 @@ public class Zavodnik implements Comparable<Zavodnik> {
         this.birthYear = z.birthYear;
         this.gender = z.gender;
         this.club = z.club;
-        this.startNumber = z.startNumber;
+        this.regNumber = z.regNumber;
         this.startTime = z.startTime;
         this.finishTime = z.finishTime;
     }
@@ -61,6 +73,9 @@ public class Zavodnik implements Comparable<Zavodnik> {
         return club;
     }
     
+    public void setClub(String club) {
+        this.club = checkClub(club);
+    }
     
     // Getters
 
@@ -84,8 +99,8 @@ public class Zavodnik implements Comparable<Zavodnik> {
         return club;
     }
 
-    public int getStartNumber() {
-        return startNumber;
+    public int getRegNumber() {
+        return regNumber;
     }
 
     public LocalTime getStartTime() {
@@ -164,7 +179,7 @@ public class Zavodnik implements Comparable<Zavodnik> {
     @Override
     public String toString() {
         return String.format("%5d %10s %10s %5d %1s %10s %10s %10s", 
-                this.startNumber,this.firstName, this.surname, this.getAge(), this.gender.ch, TimeTools.timeToString(startTime), TimeTools.timeToString(finishTime), TimeTools.timeToString(getTime()));
+                this.regNumber,this.firstName, this.surname, this.getAge(), this.gender.ch, TimeTools.timeToString(startTime), TimeTools.timeToString(finishTime), TimeTools.timeToString(getTime()));
     }
     
     // Testing main
@@ -176,9 +191,7 @@ public class Zavodnik implements Comparable<Zavodnik> {
         System.out.println(z);
             z.setFinishTime("10:02:05");
             System.out.println(z);
-        } catch (StartTimeNotSet e) {
-            System.out.println(e.getMessage());
-        } catch (IllegalArgumentException e) {
+        } catch (StartTimeNotSet | IllegalArgumentException e) {
             System.out.println(e.getMessage());
         } catch (Exception e) {
             System.out.println("Chyby");
