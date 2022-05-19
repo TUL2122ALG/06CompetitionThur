@@ -3,14 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package school;
+package school.utils;
 
 /**
  *
  * @author 
  */
-public class ZavodApp {
-    public static void main(String[] args) {
-        
+public class ErrorLinesException extends RuntimeException {
+
+    public ErrorLinesException(String message) {
+        super(message);
     }
+
 }

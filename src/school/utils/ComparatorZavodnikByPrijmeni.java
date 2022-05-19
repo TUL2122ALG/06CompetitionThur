@@ -3,8 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package school;
+package school.utils;
 
+import school.app.Zavodnik;
 import java.util.Comparator;
 
 /**
